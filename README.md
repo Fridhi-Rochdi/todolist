@@ -1,6 +1,7 @@
 # 🚀 Task Manager API - DevOps Project
 
 [![CI/CD](https://github.com/Fridhi-Rochdi/todolist/actions/workflows/ci.yml/badge.svg)](https://github.com/Fridhi-Rochdi/todolist/actions)
+[![DAST Scan](https://github.com/Fridhi-Rochdi/todolist/actions/workflows/dast.yml/badge.svg)](https://github.com/Fridhi-Rochdi/todolist/actions)
 
 ## 📖 Description
 
