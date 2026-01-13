@@ -7,7 +7,6 @@ import { NotFoundException } from '@nestjs/common';
 
 describe('TodoService', () => {
   let service: TodoService;
-  let repository: Repository<Todo>;
 
   const mockTodo: Todo = {
     id: 1,
@@ -37,7 +36,6 @@ describe('TodoService', () => {
     }).compile();
 
     service = module.get<TodoService>(TodoService);
-    repository = module.get<Repository<Todo>>(getRepositoryToken(Todo));
   });
 
   afterEach(() => {
@@ -88,7 +86,7 @@ describe('TodoService', () => {
     it('should update and return the todo', async () => {
       const updateDto = { title: 'Updated', completed: true };
       const updatedTodo = { ...mockTodo, ...updateDto };
-      
+
       mockRepository.findOne.mockResolvedValue(mockTodo);
       mockRepository.save.mockResolvedValue(updatedTodo);
 
@@ -99,7 +97,9 @@ describe('TodoService', () => {
 
     it('should throw NotFoundException if todo not found', async () => {
       mockRepository.findOne.mockResolvedValue(null);
-      await expect(service.update(999, { title: 'Test' })).rejects.toThrow(NotFoundException);
+      await expect(service.update(999, { title: 'Test' })).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 

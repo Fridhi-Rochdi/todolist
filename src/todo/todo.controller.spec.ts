@@ -83,7 +83,7 @@ describe('TodoController', () => {
       const updateDto: UpdateTodoDto = { title: 'Updated', completed: true };
       const updatedTodo = { ...mockTodo, ...updateDto };
       mockTodoService.update.mockResolvedValue(updatedTodo);
-      
+
       const result = await controller.update(1, updateDto);
       expect(result).toEqual(updatedTodo);
       expect(service.update).toHaveBeenCalledWith(1, updateDto);
