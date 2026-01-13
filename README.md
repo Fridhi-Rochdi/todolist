@@ -22,12 +22,51 @@ API REST minimaliste développée avec **NestJS + PostgreSQL** dans le cadre d'u
 
 ## 📦 API Endpoints
 
+### Endpoints disponibles
+
+| Méthode | Route          | Description               |
+|---------|----------------|---------------------------|
+| GET     | `/todos`       | Liste toutes les tâches   |
+| GET     | `/todos/:id`   | Récupère une tâche par ID |
+| POST    | `/todos`       | Crée une nouvelle tâche   |
+| PUT     | `/todos/:id`   | Met à jour une tâche      |
+| DELETE  | `/todos/:id`   | Supprime une tâche        |
+
+### Exemples d'utilisation
+
+**Créer une tâche :**
+```bash
+curl -X POST http://localhost:3000/todos \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Apprendre NestJS",
+    "description": "Compléter le projet DevOps"
+  }'
 ```
-GET    /todos       - Liste toutes les tâches
-GET    /todos/:id   - Récupère une tâche
-POST   /todos       - Crée une tâche
-PUT    /todos/:id   - Met à jour une tâche
-DELETE /todos/:id   - Supprime une tâche
+
+**Lister toutes les tâches :**
+```bash
+curl http://localhost:3000/todos
+```
+
+**Récupérer une tâche :**
+```bash
+curl http://localhost:3000/todos/1
+```
+
+**Mettre à jour une tâche :**
+```bash
+curl -X PUT http://localhost:3000/todos/1 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "Apprendre NestJS - Terminé",
+    "completed": true
+  }'
+```
+
+**Supprimer une tâche :**
+```bash
+curl -X DELETE http://localhost:3000/todos/1
 ```
 
 ---
@@ -86,10 +125,17 @@ docker-compose down
 ## 🧪 Tests
 
 ```bash
+# Tests unitaires
 npm run test
-npm run test:e2e
+
+# Tests avec couverture
 npm run test:cov
+
+# Tests E2E (à venir)
+npm run test:e2e
 ```
+
+**Couverture actuelle :** > 80% sur TodoService et TodoController
 
 ---
 
@@ -133,7 +179,7 @@ kubectl apply -f k8s/
 | # | Issue | Status |
 |---|-------|--------|
 | 1 | Configuration initiale NestJS + PostgreSQL + Docker | ✅ |
-| 2 | CRUD API + Tests unitaires | ⏳ |
+| 2 | CRUD API + Tests unitaires | ✅ |
 | 3 | CI/CD + SAST | ⏳ |
 | 4 | DAST + Security Scan | ⏳ |
 | 5 | Kubernetes + Observabilité + Documentation finale | ⏳ |
