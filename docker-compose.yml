@@ -5,9 +5,9 @@ services:
     image: postgres:15-alpine
     container_name: todolist-postgres
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 20122002
-      POSTGRES_DB: todolist_db
+      POSTGRES_USER: ${POSTGRES_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      POSTGRES_DB: ${POSTGRES_DATABASE:-todolist_db}
     ports:
       - "5432:5432"
     volumes:
@@ -28,9 +28,9 @@ services:
     environment:
       POSTGRES_HOST: postgres
       POSTGRES_PORT: 5432
-      POSTGRES_USERNAME: postgres
-      POSTGRES_PASSWORD: 20122002
-      POSTGRES_DATABASE: todolist_db
+      POSTGRES_USERNAME: ${POSTGRES_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      POSTGRES_DATABASE: ${POSTGRES_DATABASE:-todolist_db}
       NODE_ENV: production
       PORT: 3000
     depends_on:
