@@ -1,8 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { TodoService } from './todo.service';
-import { Todo } from './todo.entity';
+import { Todo } from './entities/todo.entity';
 import { NotFoundException } from '@nestjs/common';
 
 describe('TodoService', () => {
