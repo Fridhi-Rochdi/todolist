@@ -1,4 +1,8 @@
-# � TodoList API - Projet DevOps Académique
+# TodoList API - Projet DevOps Académique
+
+![CI/CD Pipeline](https://github.com/Fridhi-Rochdi/todolist/actions/workflows/ci.yml/badge.svg)
+![CodeQL Security](https://github.com/Fridhi-Rochdi/todolist/actions/workflows/codeql.yml/badge.svg)
+![Test Coverage](https://img.shields.io/badge/coverage-80%25-brightgreen)
 
 ## 🎯 Vue d'ensemble
 
