@@ -1,0 +1,77 @@
+name: DAST Security Scan
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 2 * * 1'  # Run every Monday at 2am
+
+jobs:
+  zap-scan:
+    name: OWASP ZAP Scan
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create .env file
+        run: |
+          echo "POSTGRES_USERNAME=postgres" >> .env
+          echo "POSTGRES_PASSWORD=test_password_for_ci" >> .env
+          echo "POSTGRES_DATABASE=todolist_db" >> .env
+
+      - name: Start application with Docker Compose
+        run: |
+          docker-compose up -d
+          echo "Waiting for application to be ready..."
+          sleep 30
+
+      - name: Wait for API to be ready
+        run: |
+          for i in {1..30}; do
+            if curl -f http://localhost:3000/health > /dev/null 2>&1; then
+              echo "API is ready!"
+              exit 0
+            fi
+            echo "Waiting for API... ($i/30)"
+            sleep 2
+          done
+          echo "API failed to start"
+          docker-compose logs
+          exit 1
+
+      - name: Run OWASP ZAP Baseline Scan
+        uses: zaproxy/action-baseline@v0.12.0
+        with:
+          target: 'http://localhost:3000'
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a -j -m 5 -T 5'
+          allow_issue_writing: true
+          fail_action: false
+
+      - name: Upload ZAP Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-report
+          path: |
+            report_html.html
+            report_json.json
+            report_md.md
+
+      - name: Display scan summary
+        if: always()
+        run: |
+          if [ -f report_md.md ]; then
+            cat report_md.md
+          fi
+
+      - name: Stop Docker Compose
+        if: always()
+        run: docker-compose down -v

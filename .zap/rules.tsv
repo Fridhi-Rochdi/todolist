@@ -1,0 +1,29 @@
+# ZAP Scanning Rules Configuration
+# Format: <rule_id> <action> <description>
+# Actions: IGNORE, WARN, FAIL
+# 
+# Common Rule IDs:
+# 10021 - X-Content-Type-Options header missing
+# 10020 - X-Frame-Options header not set
+# 10017 - Cross-domain JavaScript source file inclusion
+# 10055 - CSP Header Not Set
+# 10096 - Timestamp Disclosure
+# 10109 - Modern Web Application
+# 10110 - Dangerous JS Functions
+# 10202 - Absence of Anti-CSRF Tokens
+
+# Ignore low-priority findings for minimal API
+10021	IGNORE	(X-Content-Type-Options Header Missing)
+10096	IGNORE	(Timestamp Disclosure - Unix)
+10109	IGNORE	(Modern Web Application)
+
+# Warn on security headers
+10020	WARN	(X-Frame-Options Header Not Set)
+10055	WARN	(CSP: Content Security Policy Header Not Set)
+
+# Fail on critical security issues
+10202	FAIL	(Absence of Anti-CSRF Tokens)
+40012	FAIL	(Cross Site Scripting (Reflected))
+40014	FAIL	(Cross Site Scripting (Persistent))
+40018	FAIL	(SQL Injection)
+90019	FAIL	(Server Side Code Injection)
